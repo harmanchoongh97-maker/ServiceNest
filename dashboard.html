@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<style>
+body{
+  font-family: Arial;
+  text-align: center;
+  margin-top: 80px;
+  background:#111;
+  color:white;
+}
+
+.settings{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  background:#ff4d4d;
+  color:white;
+  cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="settings">
+  <button onclick="logout()">Logout</button>
+</div>
+
+<h1>🎉 Welcome to Dashboard 😎</h1>
+
+<script>
+function logout(){
+  alert("Logged out ✅");
+
+  // Redirect to login page
+  window.location.href = "tssstst.html";
+}
+</script>
+
+</body>
+</html>

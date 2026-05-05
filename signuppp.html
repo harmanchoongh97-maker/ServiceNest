@@ -1,0 +1,186 @@
++<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup</title>
+<style>
+    
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color:white;
+    overflow: hidden;
+}
+body{
+     background-image:url('back.jpg');
+     background-position: center;  
+     background-attachment: fixed;
+}
+
+
+.signup-box {
+    position: relative;
+    width: 340px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.3);
+    color: white;
+    text-align: center;
+}
+
+
+.signup-box h2 {
+    margin-bottom: 25px;
+}
+
+
+.input-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    background: rgba(255,255,255,0.2);
+}
+
+
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #00f2ff, #ff00cc);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.signup-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #00f2ff;
+}
+
+
+.extra {
+    margin-top: 15px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.extra a {
+    color: #00f2ff;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+    
+
+<div class="signup-box">
+    <h2>Create Account</h2>
+
+   <form id="signupForm">
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" name="fullname" placeholder="Enter your name" required>
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" name="email" placeholder="Enter your email" required>
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" name="password" placeholder="Create password" required>
+</div>
+
+<div class="input-group">
+<label>Confirm Password</label>
+<input type="password" name="confirm_password" placeholder="Confirm password" required>
+</div>
+
+<button type="submit" class="signup-btn">Sign Up</button>
+
+</form>
+
+    <div class="extra">
+        Already have an account? <a href="tssstst.html">Login</a>
+    </div>
+</div>
+<!-- Firebase SDK (Browser version) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC2QswyNd4oN6xKYjchR2Web2q74LU1QdQ",
+  authDomain: "service-nest-c07bb.firebaseapp.com",
+  databaseURL: "https://service-nest-c07bb-default-rtdb.firebaseio.com",
+  projectId: "service-nest-c07bb",
+  storageBucket: "service-nest-c07bb.firebasestorage.app",
+  messagingSenderId: "854846938802",
+  appId: "1:854846938802:web:f024d58c5147014d07b3ab",
+  measurementId: "G-NF4D7FWZ64"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+</script><script>
+document.getElementById("signupForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.querySelector('[name="fullname"]').value;
+  const email = document.querySelector('[name="email"]').value;
+  const password = document.querySelector('[name="password"]').value;
+  const confirm = document.querySelector('[name="confirm_password"]').value;
+
+  // Password match check
+  if(password !== confirm){
+    alert("Passwords do not match ❌");
+    return;
+  }
+
+  // Save to Firebase
+  database.ref("users").push({
+    fullname: name,
+    email: email,
+    password: password
+  });
+
+  alert("Signup successful ✅");
+
+  document.getElementById("signupForm").reset();
+});
+
+</script>
+
+</body>
+</html>
