@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Service Nest – All Workers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #0d0d14;
+      --card:      #13131f;
+      --card2:     #1a1a2a;
+      --border:    #2a2a3d;
+      --orange:    #f97316;
+      --orange2:   #ea6000;
+      --gold:      #f59e0b;
+      --text:      #e8e8f0;
+      --muted:     #7a7a9a;
+      --tag-bg:    #1e1e30;
+      --tag-text:  #a0a0c0;
+      --sidebar-w: 270px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ══ NAVBAR ══ */
+    nav {
+      display: flex; align-items: center;
+      padding: 0 40px;
+      height: 64px;
+      background: #0d0d14;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--orange);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border); padding: 9px 20px; border-radius: 6px;
+      font-family: 'Barlow', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.5px; cursor: pointer;
+      text-transform: uppercase; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ══ PAGE HERO ══ */
+    .hero {
+      padding: 40px 40px 0;
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .hero-label {
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--orange); letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3rem; font-weight: 800;
+      line-height: 1; color: #fff;
+    }
+    .hero-sub { color: var(--muted); font-size: 0.9rem; margin-top: 8px; }
+
+    /* ══ BODY ══ */
+    .body-wrap {
+      display: flex; gap: 0;
+      padding: 28px 40px;
+    }
+
+    /* ══ SIDEBAR ══ */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      margin-right: 28px;
+    }
+    .filter-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+    .filter-block h3 {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted); margin-bottom: 14px;
+    }
+    .f-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 0; cursor: pointer; font-size: 0.88rem;
+      color: var(--muted); transition: color 0.15s;
+    }
+    .f-option:hover { color: var(--text); }
+    .f-option input[type=checkbox] {
+      width: 15px; height: 15px; accent-color: var(--orange); cursor: pointer;
+    }
+    .f-badge {
+      margin-left: auto;
+      background: var(--tag-bg); color: var(--tag-text);
+      font-size: 0.7rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 20px;
+    }
+    .star-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 0; cursor: pointer; font-size: 0.88rem; color: var(--muted);
+    }
+    .star-row:hover { color: var(--text); }
+    .star-row input { accent-color: var(--orange); cursor: pointer; }
+    .stars { color: var(--gold); letter-spacing: 1px; font-size: 0.82rem; }
+
+    input[type=range] {
+      width: 100%; accent-color: var(--orange);
+      margin-top: 10px; cursor: pointer;
+    }
+    .range-lbl {
+      display: flex; justify-content: space-between;
+      font-size: 0.76rem; color: var(--muted); margin-top: 6px;
+    }
+
+    .apply-btn {
+      width: 100%; background: var(--orange); color: #fff;
+      border: none; padding: 11px; border-radius: 8px;
+      font-family: 'Barlow', sans-serif; font-weight: 700;
+      font-size: 0.88rem; letter-spacing: 0.5px; cursor: pointer;
+      text-transform: uppercase; transition: background 0.2s;
+    }
+    .apply-btn:hover { background: var(--orange2); }
+    .clear-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); padding: 9px; border-radius: 8px;
+      font-family: 'Barlow', sans-serif; font-weight: 600;
+      font-size: 0.85rem; cursor: pointer; margin-top: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .clear-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ══ MAIN ══ */
+    .main { flex: 1; min-width: 0; }
+
+    .toolbar {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1; min-width: 220px;
+      display: flex; align-items: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0 14px; gap: 10px;
+      transition: border-color 0.2s;
+    }
+    .search-wrap:focus-within { border-color: var(--orange); }
+    .search-wrap input {
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.9rem; padding: 11px 0; width: 100%;
+    }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-icon { color: var(--muted); font-size: 0.95rem; }
+
+    .sort-sel {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px;
+      padding: 10px 14px; font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem; cursor: pointer; outline: none;
+    }
+    .sort-sel:focus { border-color: var(--orange); }
+
+    .view-toggle { display: flex; gap: 6px; }
+    .vt-btn {
+      width: 38px; height: 38px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 7px; cursor: pointer; color: var(--muted);
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .vt-btn.active, .vt-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    .results-info {
+      font-size: 0.83rem; color: var(--muted); white-space: nowrap;
+    }
+
+    /* Active chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .chip {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(249,115,22,0.12); color: var(--orange);
+      border: 1px solid rgba(249,115,22,0.3);
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 0.76rem; font-weight: 600;
+    }
+    .chip .x { cursor: pointer; opacity: 0.7; }
+    .chip .x:hover { opacity: 1; }
+
+    /* ══ GRID ══ */
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .workers-grid.list-view { grid-template-columns: 1fr; }
+
+    /* ══ WORKER CARD ══ */
+    .wcard {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+      animation: fadeUp 0.35s ease both;
+    }
+    .wcard:hover {
+      transform: translateY(-5px);
+      border-color: rgba(249,115,22,0.4);
+      box-shadow: 0 12px 40px rgba(249,115,22,0.08);
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(16px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    .wcard-top {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .wc-avatar {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--tag-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; flex-shrink: 0;
+    }
+    .wc-name {
+      font-weight: 700; font-size: 1rem; color: var(--text); line-height: 1.2;
+    }
+    .wc-trade {
+      font-size: 0.8rem; font-weight: 600; margin-top: 3px;
+    }
+    .wc-rating {
+      margin-left: auto; flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: flex-end;
+    }
+    .rating-num {
+      color: var(--gold); font-weight: 800; font-size: 1.1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .rating-star { font-size: 0.8rem; color: var(--gold); }
+
+    .wcard-body { padding: 14px 18px 18px; }
+
+    .wc-avail {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.74rem; font-weight: 700;
+      color: #4ade80; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .avail-dot {
+      width: 7px; height: 7px; background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #4ade80;
+      animation: pulse 1.8s ease infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; } 50% { opacity:0.4; }
+    }
+
+    .wc-meta {
+      display: flex; flex-wrap: wrap; gap: 7px;
+      margin-bottom: 12px;
+    }
+    .wc-meta span {
+      background: var(--tag-bg); color: var(--muted);
+      font-size: 0.76rem; padding: 3px 9px; border-radius: 6px;
+    }
+
+    .wc-skills {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 14px;
+    }
+    .skill-tag {
+      background: var(--tag-bg); color: var(--tag-text);
+      font-size: 0.73rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .wc-footer {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .hire-btn {
+      flex: 1; background: var(--orange); color: #fff;
+      border: none; padding: 11px; border-radius: 8px;
+      font-family: 'Barlow', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .hire-btn:hover { background: var(--orange2); transform: scale(1.01); }
+
+    .save-btn {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--tag-bg); border: 1px solid var(--border);
+      color: var(--muted); font-size: 1rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; flex-shrink: 0;
+    }
+    .save-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .save-btn.saved { color: var(--orange); border-color: var(--orange); }
+
+    .verified-pill {
+      font-size: 0.68rem; font-weight: 700;
+      background: rgba(74,222,128,0.12);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.25);
+      padding: 2px 8px; border-radius: 20px;
+      margin-left: 6px; vertical-align: middle;
+    }
+
+    /* trade color accents */
+    .trade-Carpenter { color: #fb923c; }
+    .trade-Electrician { color: #facc15; }
+    .trade-Plumber { color: #38bdf8; }
+    .trade-Painter { color: #f472b6; }
+    .trade-Mason { color: #a78bfa; }
+    .trade-Welder { color: #f87171; }
+    .trade-HVAC { color: #34d399; }
+    .trade-Tiler { color: #818cf8; }
+
+    /* List view card */
+    .workers-grid.list-view .wcard { border-radius: 10px; }
+    .workers-grid.list-view .wcard-top { padding: 14px 18px; }
+    .workers-grid.list-view .wcard-body {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      align-items: center; padding: 12px 18px;
+    }
+    .workers-grid.list-view .wc-avail { margin-bottom: 0; }
+    .workers-grid.list-view .wc-meta { margin-bottom: 0; }
+    .workers-grid.list-view .wc-skills { margin-bottom: 0; flex: 1; }
+    .workers-grid.list-view .wc-footer { min-width: 160px; }
+
+    /* No results */
+    .no-results {
+      text-align: center; padding: 80px 20px;
+      color: var(--muted); display: none;
+    }
+    .no-results .icon { font-size: 3.5rem; margin-bottom: 14px; }
+    .no-results h3 { color: var(--text); margin-bottom: 6px; }
+
+    /* Pagination */
+    .pagination {
+      display: flex; justify-content: center; align-items: center;
+      gap: 8px; margin-top: 36px; flex-wrap: wrap;
+    }
+    .pg {
+      width: 36px; height: 36px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 7px; cursor: pointer; color: var(--muted);
+      font-size: 0.88rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; font-family: 'Barlow', sans-serif; font-weight: 600;
+    }
+    .pg:hover, .pg.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+    .pg:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    @media (max-width: 900px) {
+      .body-wrap { flex-direction: column; padding: 16px 20px; }
+      .sidebar { width: 100%; margin-right: 0; }
+      nav { padding: 0 20px; }
+      .hero { padding: 28px 20px 0; }
+    }
+    @media (max-width: 500px) {
+      .nav-links, .nav-btns .btn-outline { display: none; }
+      .workers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Service Nest</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-label">All Professionals</div>
+    <h1>Browse Workers</h1>
+    <p class="hero-sub">Verified skilled workers across Punjab &amp; Chandigarh</p>
+  </div>
+  <button class="btn-outline" onclick="history.back()" style="margin-bottom:6px">← Back</button>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="filter-block">
+      <h3>Trade / Skill</h3>
+      <label class="f-option"><input type="checkbox" value="Carpenter"> 🪚 Carpenter <span class="f-badge">8</span></label>
+      <label class="f-option"><input type="checkbox" value="Electrician"> ⚡ Electrician <span class="f-badge">6</span></label>
+      <label class="f-option"><input type="checkbox" value="Plumber"> 🔧 Plumber <span class="f-badge">7</span></label>
+      <label class="f-option"><input type="checkbox" value="Painter"> 🎨 Painter <span class="f-badge">5</span></label>
+      <label class="f-option"><input type="checkbox" value="Mason"> 🧱 Mason <span class="f-badge">4</span></label>
+      <label class="f-option"><input type="checkbox" value="Welder"> 🔩 Welder <span class="f-badge">3</span></label>
+      <label class="f-option"><input type="checkbox" value="HVAC"> ❄️ HVAC <span class="f-badge">3</span></label>
+      <label class="f-option"><input type="checkbox" value="Tiler"> 🪵 Tiler <span class="f-badge">4</span></label>
+    </div>
+
+    <div class="filter-block">
+      <h3>Location</h3>
+      <label class="f-option"><input type="checkbox" value="Ludhiana"> 📍 Ludhiana <span class="f-badge">9</span></label>
+      <label class="f-option"><input type="checkbox" value="Jalandhar"> 📍 Jalandhar <span class="f-badge">6</span></label>
+      <label class="f-option"><input type="checkbox" value="Amritsar"> 📍 Amritsar <span class="f-badge">5</span></label>
+      <label class="f-option"><input type="checkbox" value="Chandigarh"> 📍 Chandigarh <span class="f-badge">7</span></label>
+      <label class="f-option"><input type="checkbox" value="Patiala"> 📍 Patiala <span class="f-badge">4</span></label>
+      <label class="f-option"><input type="checkbox" value="Mohali"> 📍 Mohali <span class="f-badge">3</span></label>
+    </div>
+
+   
+
+    <div class="filter-block">
+      <h3>Min. Experience</h3>
+      <input type="range" id="expRange" min="0" max="20" value="0"
+        oninput="document.getElementById('expVal').textContent=this.value+'+ yrs'">
+      <div class="range-lbl"><span id="expVal">0+ yrs</span><span>20 yrs</span></div>
+    </div>
+
+    <div class="filter-block">
+      <h3>Extra Filters</h3>
+      <label class="f-option"><input type="checkbox" id="availCheck"> 🟢 Available Now</label>
+      <label class="f-option"><input type="checkbox" id="verifiedCheck"> ✅ Verified Only</label>
+    </div>
+
+    <button class="apply-btn" onclick="applyFilters()">Apply Filters</button>
+    <button class="clear-btn" onclick="clearFilters()">Clear All Filters</button>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search name, trade, skill, city…" oninput="applyFilters()">
+      </div>
+      <select class="sort-sel" id="sortSel" onchange="applyFilters()">
+        <option value="rating">⭐ Top Rated</option>
+        <option value="jobs">✅ Most Jobs</option>
+        <option value="exp">💼 Most Experience</option>
+        <option value="name">🔤 Name A–Z</option>
+      </select>
+      <div class="view-toggle">
+        <button class="vt-btn active" id="gridBtn" onclick="setView('grid')" title="Grid">⊞</button>
+        <button class="vt-btn" id="listBtn" onclick="setView('list')" title="List">☰</button>
+      </div>
+      <span class="results-info" id="resInfo">Loading…</span>
+    </div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="workers-grid" id="grid"></div>
+    <div class="no-results" id="noRes">
+      <div class="icon">🔍</div>
+      <h3>No workers found</h3>
+      <p>Try adjusting your filters or search term.</p>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+<script type="module">
+// 🔥 Firebase import
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiRWKR6WjLZeyAl8dhp94mRoz66lgL5es",
+  authDomain: "service-nest-new.firebaseapp.com",
+  projectId: "service-nest-new",
+  storageBucket: "service-nest-new.firebasestorage.app",
+  messagingSenderId: "264693794866",
+  appId: "1:264693794866:web:06a092ba716a4d4127142b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 🔥 GLOBAL STATE
+let WORKERS = [];
+let filtered = [];
+let page = 1;
+let viewMode = 'grid';
+let saved = new Set();
+
+const PER_PAGE = 12;
+
+const TRADE_EMOJI = {
+  Carpenter:"🪚", Electrician:"⚡", Plumber:"🔧", Painter:"🎨",
+  Mason:"🧱", Welder:"🔩", HVAC:"❄️", Tiler:"🪵"
+};
+
+// 🔥 LOAD DATA FROM FIRESTORE
+async function loadWorkers() {
+  const snap = await getDocs(collection(db, "workers"));
+
+  WORKERS = snap.docs.map(doc => {
+    const d = doc.data();
+
+    return {
+      id: doc.id,
+      name: d.name || "No Name",
+      trade: d.trade || "Unknown",
+
+      // ✅ IMPORTANT FIX (LOWERCASE FOR MATCHING)
+      city: (d.address || "").toLowerCase(),
+
+      skills: Array.isArray(d.skills) ? d.skills : [],
+      exp: d.experience || 0,
+      rating: isNaN(Number(d.rate)) ? 0 : Number(d.rate),
+      jobs: d.jobs || 0,
+      avail: d.avail || false,
+      ver: true,
+      emoji: "👷"
+    };
+  });
+
+  filtered = [...WORKERS];
+  applyFilters();
+}
+
+loadWorkers();
+
+
+// 🔥 REAL-TIME FILTER EVENTS
+document.querySelectorAll('.sidebar input[type=checkbox]')
+  .forEach(el => el.addEventListener('change', applyFilters));
+
+document.getElementById('expRange')
+  .addEventListener('input', applyFilters);
+
+document.getElementById('sortSel')
+  .addEventListener('change', applyFilters);
+
+document.getElementById('searchInput')
+  .addEventListener('input', applyFilters);
+
+
+// 🔥 MAIN FILTER FUNCTION
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortSel').value;
+  const minExp = parseInt(document.getElementById('expRange').value);
+
+  const onlyAv = document.getElementById('availCheck').checked;
+  const onlyVer = document.getElementById('verifiedCheck').checked;
+
+  // ✅ FIXED FILTER SEPARATION
+  const trades = [...document.querySelectorAll('.filter-block:nth-child(1) input:checked')]
+    .map(e => e.value);
+
+  const cities = [...document.querySelectorAll('.filter-block:nth-child(2) input:checked')]
+    .map(e => e.value.toLowerCase());
+
+  filtered = WORKERS.filter(w => {
+
+    // 🔍 SEARCH
+    if (q && ![w.name, w.trade, w.city, ...w.skills]
+      .some(s => s.toLowerCase().includes(q))) return false;
+
+    // 🔧 TRADE
+    if (trades.length && !trades.includes(w.trade)) return false;
+
+    // 📍 CITY (PARTIAL MATCH)
+    if (cities.length && !cities.some(c => w.city.includes(c))) return false;
+
+    // 💼 EXPERIENCE
+    if (w.exp < minExp) return false;
+
+    // 🟢 AVAILABILITY
+    if (onlyAv && !w.avail) return false;
+
+    // ✅ VERIFIED
+    if (onlyVer && !w.ver) return false;
+
+    return true;
+  });
+
+  // 🔥 SORTING
+  if (sort==='rating') filtered.sort((a,b)=>b.rating-a.rating);
+  else if (sort==='jobs') filtered.sort((a,b)=>b.jobs-a.jobs);
+  else if (sort==='exp') filtered.sort((a,b)=>b.exp-a.exp);
+  else if (sort==='name') filtered.sort((a,b)=>a.name.localeCompare(b.name));
+
+  page = 1;
+  renderChips(trades, cities, 0, minExp, onlyAv, onlyVer);
+  render();
+}
+
+
+// 🔥 RENDER UI
+function render() {
+  const grid  = document.getElementById('grid');
+  const noRes = document.getElementById('noRes');
+  const info  = document.getElementById('resInfo');
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    noRes.style.display = 'block';
+    info.textContent = 'No workers found';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  noRes.style.display = 'none';
+  info.textContent = `Showing ${filtered.length} workers`;
+
+  const slice = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
+
+  grid.innerHTML = slice.map((w,i) => `
+    <div class="wcard">
+      <div class="wcard-top">
+        <div class="wc-avatar">${w.emoji}</div>
+        <div>
+          <div class="wc-name">${w.name}</div>
+          <div class="wc-trade">${TRADE_EMOJI[w.trade]} ${w.trade}</div>
+        </div>
+        <div class="wc-rating">★ ${w.rating.toFixed(1)}</div>
+      </div>
+
+      <div class="wcard-body">
+        <div class="wc-meta">
+          <span>📍 ${w.city}</span>
+          <span>💼 ${w.exp} yrs</span>
+        </div>
+
+        <div class="wc-footer">
+          <button class="hire-btn"
+            onclick="hireNow('${w.id}','${w.name}','${w.trade}')">
+            Hire Now
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  renderPagination();
+}
+
+
+// 🔥 PAGINATION
+function renderPagination() {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  const pg = document.getElementById('pagination');
+
+  if (total <= 1) { pg.innerHTML=''; return; }
+
+  let h = `<button onclick="goPage(${page-1})">‹</button>`;
+  for (let i=1;i<=total;i++) {
+    h += `<button onclick="goPage(${i})">${i}</button>`;
+  }
+  h += `<button onclick="goPage(${page+1})">›</button>`;
+
+  pg.innerHTML = h;
+}
+
+function goPage(n) {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (n < 1 || n > total) return;
+  page = n;
+  render();
+}
+
+
+// 🔥 CHIPS
+function renderChips(trades, cities, r, exp, av, ver) {
+  const c = document.getElementById('chips');
+  let h = '';
+
+  trades.forEach(t => h += `<div class="chip">${t}</div>`);
+  cities.forEach(ci => h += `<div class="chip">📍${ci}</div>`);
+
+  if (exp > 0) h += `<div class="chip">${exp}+ yrs</div>`;
+  if (av) h += `<div class="chip">Available</div>`;
+  if (ver) h += `<div class="chip">Verified</div>`;
+
+  c.innerHTML = h;
+}
+
+
+// 🔥 NAVIGATION
+function hireNow(id, name, trade) {
+  window.location.href =
+    `hiretradesmen.html?id=${id}&name=${encodeURIComponent(name)}&trade=${encodeURIComponent(trade)}`;
+}
+
+// 🔥 GLOBAL
+window.hireNow = hireNow;
+window.applyFilters = applyFilters;
+window.goPage = goPage;
+
+</script>

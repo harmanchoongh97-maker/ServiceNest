@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Signup</title>
+<title>Login</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500&display=swap');
@@ -43,6 +43,7 @@ body {
   padding: 20px;
 }
 
+/* Floating decorative blobs */
 body::before, body::after {
   content: '';
   position: fixed;
@@ -86,6 +87,7 @@ body::after {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Decorative top accent */
 .accent-bar {
   height: 4px;
   background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
@@ -133,11 +135,11 @@ h2 {
 .subtitle {
   font-size: 14px;
   color: var(--text-muted);
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 }
 
 .input-group {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   text-align: left;
 }
 
@@ -167,7 +169,6 @@ h2 {
   stroke-linejoin: round;
   pointer-events: none;
   transition: stroke 0.2s;
-  z-index: 2;
 }
 
 .input-group input {
@@ -193,9 +194,31 @@ h2 {
   box-shadow: 0 0 0 4px var(--input-focus);
 }
 
+.input-group input:focus + svg,
 .input-wrapper:focus-within svg {
   stroke: var(--accent-1);
 }
+
+/* Fix icon z-index so it stays above input */
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.input-wrapper input { order: 1; }
+.input-wrapper svg { order: 2; z-index: 2; }
+
+.forgot {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  color: var(--accent-1);
+  text-decoration: none;
+  margin-top: -10px;
+  margin-bottom: 24px;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.forgot:hover { opacity: 1; }
 
 .signup-btn {
   width: 100%;
@@ -211,7 +234,6 @@ h2 {
   letter-spacing: 0.3px;
   box-shadow: var(--shadow-btn);
   transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
-  margin-top: 8px;
 }
 
 .signup-btn:hover {
@@ -270,27 +292,16 @@ h2 {
       </svg>
     </div>
 
-    <h2>Create Account</h2>
-    <p class="subtitle">Sign up to get started today</p>
+    <h2>Welcome back</h2>
+    <p class="subtitle">Sign in to continue to your account</p>
 
-    <form id="signupForm">
-
-      <div class="input-group">
-        <label>Full Name</label>
-        <div class="input-wrapper">
-          <input type="text" name="fullname" placeholder="Enter your name" required>
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        </div>
-      </div>
+    <form id="loginForm">
 
       <div class="input-group">
-        <label>Email</label>
+        <label>Email address</label>
         <div class="input-wrapper">
-          <input type="email" name="email" placeholder="Enter your email" required>
-          <svg viewBox="0 0 24 24">
+          <input type="email" id="email" placeholder="you@example.com" required>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="4" width="20" height="16" rx="3"/>
             <polyline points="2,4 12,13 22,4"/>
           </svg>
@@ -300,83 +311,73 @@ h2 {
       <div class="input-group">
         <label>Password</label>
         <div class="input-wrapper">
-          <input type="password" name="password" placeholder="Create password" required>
-          <svg viewBox="0 0 24 24">
+          <input type="password" id="password" placeholder="••••••••" required>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="11" width="18" height="11" rx="2"/>
             <path d="M7 11V7a5 5 0 0110 0v4"/>
           </svg>
         </div>
       </div>
 
-      <div class="input-group">
-        <label>Confirm Password</label>
-        <div class="input-wrapper">
-          <input type="password" name="confirm_password" placeholder="Confirm password" required>
-          <svg viewBox="0 0 24 24">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0110 0v4"/>
-          </svg>
-        </div>
-      </div>
+      <a href="#" class="forgot">Forgot password?</a>
 
-      <button type="submit" class="signup-btn">Create Account</button>
+      <button type="submit" class="signup-btn">Sign In</button>
 
     </form>
 
     <div class="divider"><span>or</span></div>
 
     <div class="extra">
-      Already have an account? <a href="tssstst.html">Login</a>
+      Don't have an account? <a href="signup.html">Create one</a>
     </div>
 
   </div>
 </div>
-
-<!-- Firebase SDK (Browser version) -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyC2QswyNd4oN6xKYjchR2Web2q74LU1QdQ",
-  authDomain: "service-nest-c07bb.firebaseapp.com",
-  databaseURL: "https://service-nest-c07bb-default-rtdb.firebaseio.com",
-  projectId: "service-nest-c07bb",
-  storageBucket: "service-nest-c07bb.firebasestorage.app",
-  messagingSenderId: "854846938802",
-  appId: "1:854846938802:web:f024d58c5147014d07b3ab",
-  measurementId: "G-NF4D7FWZ64"
+  apiKey: "AIzaSyDiRWKR6WjLZeyAl8dhp94mRoz66lgL5es",
+  authDomain: "service-nest-new.firebaseapp.com",
+  projectId: "service-nest-new",
+  storageBucket: "service-nest-new.appspot.com",
+  messagingSenderId: "264693794866",
+  appId: "1:264693794866:web:06a092ba716a4d4127142b"
 };
 
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-</script><script>
-document.getElementById("signupForm").addEventListener("submit", function(e){
+// ✅ safe init (reload error avoid)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+
+// 🔐 LOGIN
+document.getElementById("loginForm").addEventListener("submit", function(e){
   e.preventDefault();
 
-  const name = document.querySelector('[name="fullname"]').value;
-  const email = document.querySelector('[name="email"]').value;
-  const password = document.querySelector('[name="password"]').value;
-  const confirm = document.querySelector('[name="confirm_password"]').value;
+  console.log("Login clicked");
 
-  // Password match check
-  if(password !== confirm){
-    alert("Passwords do not match ❌");
-    return;
-  }
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  // Save to Firebase
-  database.ref("users").push({
-    fullname: name,
-    email: email,
-    password: password
-  });
+  auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      console.log(userCredential.user);
+      alert("Login successful ✅");
 
-  alert("Signup successful ✅");
-window.location.href = "tssstst.html";
-  document.getElementById("signupForm").reset();
+      window.location.href = "index3.html";
+    })
+    .catch((error) => {
+      console.error(error);
+      alert(error.message);
+    });
 });
-
 </script>
+
+
 
 </body>
 </html>

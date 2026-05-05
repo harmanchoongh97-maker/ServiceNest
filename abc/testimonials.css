@@ -1,0 +1,113 @@
+/* ===== Testimonials Section ===== */
+
+.testimonials{
+  /* Theme colors */
+  --primary:#f472b6;
+  --secondary:#be185d;
+  --t-gradient:linear-gradient(135deg,var(--primary),var(--secondary));
+
+  padding:100px 5%;
+  background:var(--background-color);
+}
+
+/* Section tag */
+
+.testimonials .section-tag{
+  color:var(--primary);
+}
+
+/* ===== Header ===== */
+
+.t-header{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+/* ===== Grid ===== */
+
+.t-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+  gap:24px;
+}
+
+/* ===== Testimonial Card ===== */
+
+.t-card{
+  position:relative;
+
+  padding:30px 28px;
+  border-radius:10px;
+
+  background:var(--card-color);
+  border:1px solid var(--border-color);
+
+  transition:.25s;
+}
+
+/* Hover effect */
+
+.t-card:hover{
+  border-color:rgba(244,114,182,.3);
+  box-shadow:0 16px 40px rgba(244,114,182,.08);
+}
+
+/* Decorative quote mark */
+
+.t-card::before{
+  content:"\"";
+  position:absolute;
+  top:10px;
+  left:20px;
+
+  font-family:'Bebas Neue',sans-serif;
+  font-size:6rem;
+  line-height:1;
+
+  color:var(--primary);
+  opacity:.12;
+}
+
+/* ===== Rating ===== */
+
+.t-stars{
+  margin-bottom:14px;
+  font-size:.85rem;
+  color:var(--primary);
+}
+
+/* ===== Text ===== */
+
+.t-text{
+  position:relative;
+  z-index:1;
+
+  margin-bottom:24px;
+
+  font-size:.95rem;
+  line-height:1.75;
+  color:var(--text-muted);
+}
+
+/* ===== Author ===== */
+
+.t-author{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.t-avatar{
+  font-size:1.6rem;
+}
+
+.t-name{
+  font-size:.9rem;
+  font-weight:700;
+}
+
+.t-role{
+  margin-top:2px;
+  font-size:.78rem;
+  color:var(--text-muted);
+}

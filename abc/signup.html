@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500&display=swap');
+
+:root {
+  --bg-primary: #f0f4ff;
+  --card-bg: rgba(255,255,255,0.75);
+  --input-bg: rgba(240,244,255,0.9);
+  --input-border: rgba(150,170,255,0.4);
+  --input-focus: rgba(100,120,255,0.25);
+  --text-primary: #1a1f4e;
+  --text-muted: #8a90b0;
+  --accent-1: #6366f1;
+  --accent-2: #a78bfa;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:var(--bg-primary);
+  font-family:'DM Sans',sans-serif;
+}
+
+.login-wrapper{
+  width:100%;
+  max-width:400px;
+}
+
+.signup-box{
+  background:var(--card-bg);
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+}
+
+h2{
+  font-family:'Playfair Display',serif;
+}
+
+.input-group{
+  margin:15px 0;
+}
+
+.input-group input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--input-border);
+  background:var(--input-bg);
+}
+
+.signup-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+  color:white;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+  <div class="signup-box">
+
+    <h2>Create Account</h2>
+
+    <form id="signupForm">
+
+      <div class="input-group">
+        <input type="text" id="name" placeholder="Full Name" required>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email" required>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      </div>
+
+      <button type="submit" class="signup-btn">Create Account</button>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDiRWKR6WjLZeyAl8dhp94mRoz66lgL5es",
+  authDomain: "service-nest-new.firebaseapp.com",
+  projectId: "service-nest-new",
+  storageBucket: "service-nest-new.appspot.com",
+  messagingSenderId: "264693794866",
+  appId: "1:264693794866:web:06a092ba716a4d4127142b"
+};
+
+// safe init
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+
+document.getElementById("signupForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  console.log("Signup clicked");
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if(password !== confirmPassword){
+    alert("Passwords do not match ❌");
+    return;
+  }
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      alert("Account created successfully ✅");
+      window.location.href = "login.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+});
+</script>
+
+</body>
+</html>

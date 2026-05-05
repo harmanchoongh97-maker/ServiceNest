@@ -1,0 +1,92 @@
+/* ===== Footer Styles ===== */
+
+footer{
+  /* Theme colors */
+  --primary:#94a3b8;
+  --secondary:#475569;
+  --footer-gradient:linear-gradient(135deg,var(--primary),var(--secondary));
+
+  background:var(--bg-color);
+  border-top:1px solid var(--border-color);
+  padding:60px 5% 30px;
+}
+
+/* Logo inside footer */
+footer .logo{
+  background:var(--footer-gradient);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ===== Top Section ===== */
+
+.footer-top{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:40px;
+  margin-bottom:50px;
+}
+
+/* Brand text */
+.footer-brand p{
+  margin-top:12px;
+  max-width:300px;
+  font-size:.9rem;
+  line-height:1.7;
+  color:var(--text-muted);
+}
+
+/* Footer columns */
+.footer-col h4{
+  margin-bottom:16px;
+  font-size:.8rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--primary);
+}
+
+.footer-col ul{
+  list-style:none;
+}
+
+.footer-col li{
+  margin-bottom:10px;
+}
+
+.footer-col a{
+  text-decoration:none;
+  font-size:.88rem;
+  color:var(--text-muted);
+  transition:.2s;
+}
+
+.footer-col a:hover{
+  color:var(--text-color);
+}
+
+/* ===== Bottom Section ===== */
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+
+  padding-top:24px;
+  border-top:1px solid var(--border-color);
+}
+
+.footer-bottom p{
+  font-size:.82rem;
+  color:var(--text-muted);
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width:768px){
+  .footer-top{
+    grid-template-columns:1fr 1fr;
+  }
+}

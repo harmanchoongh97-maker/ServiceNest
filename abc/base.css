@@ -1,0 +1,149 @@
+/* ===== Base Styles — ServiceNest / SkillBridge ===== */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@700;800&display=swap');
+
+/* Color + Theme Variables */
+:root{
+  --bg-color:#0d0f14;
+  --surface-color:#161a22;
+  --card-color:#1d2230;
+
+  --text-color:#f0f2f7;
+  --text-muted:#8a90a0;
+  --border-color:#2a3040;
+
+  --primary:#f5a623;
+  --secondary:#e8450a;
+  --main-gradient:linear-gradient(135deg,var(--primary),var(--secondary));
+}
+
+/* Reset */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--bg-color);
+  color:var(--text-color);
+  overflow-x:hidden;
+}
+
+/* ===== Section Text ===== */
+
+.section-tag{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--primary);
+  margin-bottom:10px;
+}
+
+.section-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(2rem,5vw,3.4rem);
+  font-weight:800;
+  line-height:1.1;
+}
+
+.section-sub{
+  margin-top:14px;
+  max-width:540px;
+  font-size:1.05rem;
+  line-height:1.7;
+  color:var(--text-muted);
+}
+
+/* ===== Buttons ===== */
+
+.btn-primary{
+  background:var(--main-gradient);
+  color:#fff;
+  border:none;
+  padding:14px 32px;
+  font-weight:700;
+  font-size:.95rem;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+  box-shadow:0 8px 28px rgba(0,0,0,.3);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+  opacity:.9;
+}
+
+.btn-outline{
+  background:transparent;
+  color:var(--primary);
+  border:1.5px solid var(--primary);
+  padding:12px 26px;
+  font-weight:700;
+  font-size:.9rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.btn-outline:hover{
+  background:var(--primary);
+  color:#0d0f14;
+}
+
+/* ===== Logo ===== */
+
+.logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem;
+  letter-spacing:3px;
+  background:var(--main-gradient);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ===== Animations ===== */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(24px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes pulse{
+  0%,100%{
+    opacity:1;
+    transform:scale(1);
+  }
+  50%{
+    opacity:.5;
+    transform:scale(1.4);
+  }
+}
+
+@keyframes popIn{
+  from{transform:scale(0);}
+  to{transform:scale(1);}
+}
